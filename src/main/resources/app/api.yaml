@@ -3,13 +3,17 @@ info:
   title: Sample API
   description: A sample API for demonstration purposes
   version: 1.0.0
+  contact:
+    name: API Team
 servers:
   - url: http://localhost:8080
+    description: Local development server
 paths:
   /api/hello:
     get:
       summary: Say hello
       description: Returns a simple hello message
+      operationId: hello
       responses:
         '200':
           description: A successful response
@@ -17,16 +21,20 @@ paths:
             text/plain:
               schema:
                 type: string
+                example: Hello, World!
   /api/greeting:
     get:
       summary: Greet a user
       description: Returns a personalized greeting
+      operationId: greeting
       parameters:
         - name: name
           in: query
           required: false
+          description: The name of the user to greet
           schema:
             type: string
+            example: John
       responses:
         '200':
           description: A successful response
@@ -34,10 +42,39 @@ paths:
             text/plain:
               schema:
                 type: string
+                example: Hello, John!
 components:
   schemas:
     Greeting:
       type: object
+      description: A greeting message object
       properties:
         message:
           type: string
+          description: The greeting message content
+          example: Hello, World!
+    ErrorResponse:
+      type: object
+      description: Standard error response format
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time when the error occurred
+          example: '2026-04-06T15:30:00.000+00:00'
+        status:
+          type: integer
+          description: HTTP status code
+          example: 404
+        error:
+          type: string
+          description: Error type
+          example: Not Found
+        message:
+          type: string
+          description: Detailed error message
+          example: API endpoint not found
+        path:
+          type: string
+          description: Request path
+          example: /api/nonexistent
